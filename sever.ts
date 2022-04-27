@@ -1,12 +1,20 @@
+import { query } from "express";
 const express = require('express')
 const app = express()
 const port = 3000
 const data = require('./data.json')
+const querystring = require('querystring')
+
+
 
 
 app.get('/',(req ,res)=>{
+    // res.json(data)
+    // res.send('id: ' + req.query.id);
+    console.log(req.headers)
     res.json(data)
-})
+});
+
 
 app.use(express.json());
 app.post('/',(req,res)=>{
