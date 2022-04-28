@@ -1,6 +1,7 @@
 import express,{Request , Response} from 'express'
 import { query } from 'express'
-import data,{id,name,description,image} from "./node_modules";
+import data,{id,name,description,image} from ("../nui-backend-intern");
+
 const app = express()
 const port = 3000
 //const data = require('./data.json')
