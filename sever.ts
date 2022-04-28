@@ -1,8 +1,10 @@
 import express,{Request , Response} from 'express'
+import { query } from 'express'
+import data,{id,name,description,image} from "./node_modules";
 const app = express()
 const port = 3000
-const data = require('./data.json')
-const querystring = require('querystring')
+//const data = require('./data.json')
+//const querystring = require('querystring')
 app.use(express.json());
 
 
