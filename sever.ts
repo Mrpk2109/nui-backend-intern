@@ -30,15 +30,15 @@ app.post('/',(req:Request ,res:Response)=>{
 
 app.put('/:id', (req:Request ,res:Response) => {
     const updateIndex = data.findIndex((data: { id: string }) => data.id === req.params.id)
-    res.json(Object.assign(data[updateIndex], req.body))
-    res.status(205).send("Input and update success");
+    //res.json(Object.assign(data[updateIndex], req.body))
+    res.status(200).send("Input and update success");
   })
 
 
 app.delete('/:id', (req:Request ,res:Response) => {
     const deleteIndex = data.findIndex((data: { id: string }) => data.id === req.params.id)
     data.splice(deleteIndex, 1)
-    res.status(204).send("Delete success");
+    res.status(200).send("Delete success");
 })
 
 
