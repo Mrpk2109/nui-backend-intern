@@ -29,8 +29,8 @@ app.post('/', (req, res) => {
 });
 app.put('/:id', (req, res) => {
     const updateIndex = data.findIndex((data) => data.id === req.params.id);
-    //res.json(Object.assign(data[updateIndex], req.body))
-    res.status(200).send("Input and update success");
+    res.json(Object.assign(data[updateIndex], req.body))
+    //res.status(200).send("Input and update success");
 });
 app.delete('/:id', (req, res) => {
     const deleteIndex = data.findIndex((data) => data.id === req.params.id);

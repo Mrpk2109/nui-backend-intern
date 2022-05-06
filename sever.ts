@@ -30,8 +30,8 @@ app.post('/',(req:Request ,res:Response)=>{
 
 app.put('/:id', (req:Request ,res:Response) => {
     const updateIndex = data.findIndex((data: { id: string }) => data.id === req.params.id)
-    //res.json(Object.assign(data[updateIndex], req.body))
-    res.status(200).send("Input and update success");
+    res.json(Object.assign(data[updateIndex], req.body))
+    //res.status(200).send("Input and update success");
   })
 
 
