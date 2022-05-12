@@ -1,3 +1,7 @@
+import path from "path";
+import connectMongo from "./mongo";
+connectMongo();
+
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
@@ -5,12 +9,10 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const _ = require('lodash');
 
-// const { MongoClient } = require("mongodb");
-// const uri = "mongodb+srv://pkintern:pkintern@cluster0.935gl.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-import connectMongo from "./mongo";
-connectMongo();
 
 const app = express();
+
+app.use(express.static('public'))
 
 // enable files upload
 app.use(fileUpload({
@@ -101,3 +103,12 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => 
   console.log(`App is listening on port ${port}.`)
 );
+
+// app.use("/upload-photos", express.static('public'));
+
+// app.get('/upload-photos', function(req: { params: { id: string; }; }, res: { sendFile: (arg0: any) => void; }) {
+//   res.sendFile(path.join(__dirname, '/upload-photos/'+req.params.id));
+// });
+
+// const paths = require('path')
+// app.use('/static', express.static(path.join(__dirname, 'public')))
