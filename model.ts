@@ -14,14 +14,7 @@ export interface IMovie{
     image: Image;
 }
 
-// export interface EImage{
-//     url: string;
-//     name: string;
-//     size: string;
-// }
-
 type MovieDocument = IMovie & Document;
-//type ImageDocument = Image & Document;
 
 const imageSchema = new Schema<Image>(
     {
@@ -40,12 +33,5 @@ const movieSchema = new Schema<MovieDocument>({
     image: imageSchema,
 });
 
-// const image_S = new Schema<ImageDocument>({
-//     url: String,
-//     name:{type: String, required: true},
-//     size: String,
-
-// })
 
 export const Movie = model<MovieDocument>("movies",movieSchema)
-// export const Image_e = model<ImageDocument>("images",image_S)

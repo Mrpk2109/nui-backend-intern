@@ -1,4 +1,4 @@
-import path from "path";
+// import path from "path";
 import connectMongo from "./mongo";
 connectMongo();
 
@@ -103,12 +103,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, () => 
   console.log(`App is listening on port ${port}.`)
 );
-
-// app.use("/upload-photos", express.static('public'));
-
-// app.get('/upload-photos', function(req: { params: { id: string; }; }, res: { sendFile: (arg0: any) => void; }) {
-//   res.sendFile(path.join(__dirname, '/upload-photos/'+req.params.id));
-// });
-
-// const paths = require('path')
-// app.use('/static', express.static(path.join(__dirname, 'public')))
