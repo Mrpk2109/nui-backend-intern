@@ -9,6 +9,7 @@
     "module-data": "^0.1.1",
     "mongo": "^0.1.0",
     "mongodb": "^4.5.0",
+    "mongoose": "^6.3.3",
     "morgan": "^1.10.0",
     "query": "^0.2.0"
   },
@@ -22,7 +23,7 @@
   },
   "scripts": {
     "build": "npx tsc",
-    "start": "node dist/index.js",
+    "start": "crud",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/sever.js\""
   }
 }
