@@ -54,16 +54,16 @@ app.get("/list",async(req:Request,res:any)=>{
 })
 // get movie by id
  app.get("/byID",(req,res)=>{
-  const id = req.query.id;
-  MovieEx.findOne({ _id: id })
+  const id = req.query;
+  MovieEx.findOne({ id: id })
     .then((movies) => res.json(movies))
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 })
 // update movie
-app.put("update-movie",()=>{
-
+app.put("update-movie",(req,res)=>{
+  
 })
 // delete movie
 // app.delete("delete-movie",()=>{
