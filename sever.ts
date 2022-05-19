@@ -7,6 +7,7 @@ import { resolve } from "path";
 import { response } from "express";
 import { request } from "http";
 import { error } from "console";
+import { Request } from "express";
 
 const express = require('express');
 const fileUpload = require('express-fileupload');
@@ -46,7 +47,7 @@ app.post("/movie-create",(req,res) => {
 });
 
 // get movie list
-app.get("/list/:movieId",async(req:Request,res:any)=>{
+app.get("/list",async(req,res)=>{
   MovieEx.find()
   .then((movies) => res.json(movies))
   .catch((err) => {
@@ -54,27 +55,38 @@ app.get("/list/:movieId",async(req:Request,res:any)=>{
   });
 })
 // get movie by id
- app.get("/byID/:movieId",(req,res)=>{
-  const id = req.params;
-  MovieEx.findOne({ id: id })
+ app.get("/byID/:movieId",async(req,res)=>{
+  const id = await req.params.id;
+  MovieEx.findById({ _id: id })
     .then((movies) => res.json(movies))
     .catch((err) => {
       res.status(500).send({ message: err.message });
     });
 })
 // update movie
-app.put("/update-movie/:movieId",(req,res)=>{
-  const payload = req.params;
-  MovieEx.findByIdAndUpdate({_id: payload.Movie.id},
-    {$set: payload})
-    .then(res.status(200).end())
-    .catch((err)=>{
-      res.status(500).send({ message: err.message });
-  });
+app.put("/update-movie/:id",(req,res)=>{
+  //const payload = req.params.id;
+  const movie = MovieEx.findByIdAndUpdate(req.params.id, req.body)
+  .then(data => {
+    if (!data) {
+      res.status(404).send({
+        message: `Cannot update movie`
+      });
+    } else {
+      res.send({
+        message: "Tutorial was update successfully!"
+      });
+    }
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: `Could not update movie with id=${req.params.id}`
+    })
+    });    
 })
 // delete movie
-app.delete("/delete-movie/:movieId",(req,res)=>{
-  const id = req.params.id;
+app.delete("/delete-movie/:id",(req,res)=>{
+  const id =  req.params.id;
   MovieEx.findByIdAndRemove(id)
     .then(data => {
       if (!data) {
@@ -91,7 +103,7 @@ app.delete("/delete-movie/:movieId",(req,res)=>{
       res.status(500).send({
         message: "Could not delete Tutorial with id=" + id
       });
-    });
+    });    
 })
 
 // movie create multiple files
