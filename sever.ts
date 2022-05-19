@@ -6,6 +6,7 @@ import MovieEx from "./models/model";
 import { resolve } from "path";
 import { response } from "express";
 import { request } from "http";
+import { error } from "console";
 
 const express = require('express');
 const fileUpload = require('express-fileupload');
@@ -62,13 +63,36 @@ app.get("/list",async(req:Request,res:any)=>{
     });
 })
 // update movie
-app.put("update-movie",(req,res)=>{
-  
+app.put("/update-movie",(req,res)=>{
+  const payload = req.body;
+  MovieEx.findByIdAndUpdate({_id: payload.Movie.id},
+    {$set: payload})
+    .then(res.status(200).end())
+    .catch((err)=>{
+      res.status(500).send({ message: err.message });
+  });
 })
 // delete movie
-// app.delete("delete-movie",()=>{
-
-// })
+app.delete("/delete-movie",(req,res)=>{
+  const id = req.params.id;
+  MovieEx.findByIdAndRemove(id)
+    .then(data => {
+      if (!data) {
+        res.status(404).send({
+          message: `Cannot delete Tutorial with id=${id}. Maybe Tutorial was not found!`
+        });
+      } else {
+        res.send({
+          message: "Tutorial was deleted successfully!"
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: "Could not delete Tutorial with id=" + id
+      });
+    });
+})
 
 // movie create multiple files
 

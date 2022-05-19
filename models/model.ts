@@ -4,5 +4,5 @@ const movieSchema = new mongoose.Schema({
     url: String,
     size: Number,
 })
-const MovieEx = mongoose.model("obj",movieSchema);
+const MovieEx = mongoose.model("movie",movieSchema);
 export default MovieEx;
