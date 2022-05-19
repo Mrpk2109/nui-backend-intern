@@ -46,7 +46,7 @@ app.post("/movie-create",(req,res) => {
 });
 
 // get movie list
-app.get("/list",async(req:Request,res:any)=>{
+app.get("/list/:movieId",async(req:Request,res:any)=>{
   MovieEx.find()
   .then((movies) => res.json(movies))
   .catch((err) => {
@@ -54,8 +54,8 @@ app.get("/list",async(req:Request,res:any)=>{
   });
 })
 // get movie by id
- app.get("/byID",(req,res)=>{
-  const id = req.query;
+ app.get("/byID/:movieId",(req,res)=>{
+  const id = req.params;
   MovieEx.findOne({ id: id })
     .then((movies) => res.json(movies))
     .catch((err) => {
@@ -63,8 +63,8 @@ app.get("/list",async(req:Request,res:any)=>{
     });
 })
 // update movie
-app.put("/update-movie",(req,res)=>{
-  const payload = req.body;
+app.put("/update-movie/:movieId",(req,res)=>{
+  const payload = req.params;
   MovieEx.findByIdAndUpdate({_id: payload.Movie.id},
     {$set: payload})
     .then(res.status(200).end())
@@ -73,7 +73,7 @@ app.put("/update-movie",(req,res)=>{
   });
 })
 // delete movie
-app.delete("/delete-movie",(req,res)=>{
+app.delete("/delete-movie/:movieId",(req,res)=>{
   const id = req.params.id;
   MovieEx.findByIdAndRemove(id)
     .then(data => {
