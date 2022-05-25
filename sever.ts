@@ -3,19 +3,16 @@ import connectMongo from "./src/mongo";
 connectMongo();
 
 import MovieEx, { IMovie} from "./models/model";
-import { resolve } from "path";
-import { response } from "express";
-import { request } from "http";
-import { error } from "console";
-import { Request } from "express";
 
+import { Request ,Response} from "express";
+import multer, { Multer } from "multer";
+import fileUpload,{UploadedFile} from "express-fileupload";
 const express = require('express');
-const fileUpload = require('express-fileupload');
+
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
-const _ = require('lodash');
-
+const UploadedFile = multer({dest: 'upload/'})
 
 const app = express();
 
@@ -27,6 +24,7 @@ app.use(fileUpload({
     createParentPath: true
 }));
 
+
 //add other middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
@@ -36,19 +34,22 @@ interface MovieRequest extends Request{
 }
 
 // movie create
-app.post("/movie-create",(req,res) => {
+app.post("/movie-create",(req: MovieRequest, res: Response) => {
   const payload = req.body;
   const movie = new MovieEx(payload);
   movie
     .save()
-    .then(res.status(201).end())
+
     .catch((err) => {
       res.status(500).send({ message: err.message });
 })
 });
+app.post('/upload', async(req: MovieRequest, res: Response)=> {
+  console.log(req?.files?.at); // the uploaded file object
+});
 
-app.post("/movies",async(req:MovieRequest,res)=>{
-  const image = req?.files?.image as UploadFile;
+app.post("/movies",async(req: MovieRequest, res: Response)=>{
+  const image = req?.files?.image as UploadedFile;
   const uploadPath = __dirname + "/uploads" + image.name;
 
   image.mv(uploadPath,(err)=>{
@@ -68,7 +69,7 @@ app.post("/movies",async(req:MovieRequest,res)=>{
 
 
 // get movie list
-app.get("/list",async(req,res)=>{
+app.get("/list",async(req: MovieRequest, res: Response)=>{
   MovieEx.find()
   .then((movies) => res.json(movies))
   .catch((err) => {
@@ -76,7 +77,7 @@ app.get("/list",async(req,res)=>{
   });
 })
 // get movie by id
- app.get("/byID/:id",async(req,res)=>{
+ app.get("/byID/:id",async(req: MovieRequest, res: Response)=>{
   const id = await req.params.id;
   MovieEx.findById({ _id: id })
     .then((movies) => res.json(movies))
@@ -85,7 +86,7 @@ app.get("/list",async(req,res)=>{
     });
 })
 // update movie
-app.put("/update-movie/:id",(req,res)=>{
+app.put("/update-movie/:id",(req: MovieRequest, res: Response)=>{
   //const payload = req.params.id;
   const movie = MovieEx.findByIdAndUpdate(req.params.id, req.body)
   .then(data => {
@@ -106,7 +107,7 @@ app.put("/update-movie/:id",(req,res)=>{
     });    
 })
 // delete movie
-app.delete("/delete-movie/:id",(req,res)=>{
+app.delete("/delete-movie/:id",(req: MovieRequest, res: Response)=>{
   const id =  req.params.id;
   MovieEx.findByIdAndRemove(id)
     .then(data => {
