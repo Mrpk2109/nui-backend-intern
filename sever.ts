@@ -3,20 +3,17 @@ import connectMongo from "./src/mongo";
 connectMongo();
 
 import MovieEx, { IMovie} from "./models/model";
-import { Request ,Response} from "express";
-import multer, { Multer } from "multer";
+
+import express, {Express, Request ,Response} from "express";
 import fileUpload,{UploadedFile} from "express-fileupload";
-const express = require('express');
+import bodyParser from "body-parser";
+import cors from "cors"
 
-const cors = require('cors');
-const bodyParser = require('body-parser');
-const morgan = require('morgan');
-const UploadedFile = multer({dest: 'upload/'})
 
-const app = express();
 
-app.use(express.static('uploads'))
-app.use(fileUpload())
+const app:Express = express();
+app.use(cors())
+
 
 // enable files upload
 app.use(fileUpload({
@@ -25,7 +22,6 @@ app.use(fileUpload({
 
 
 //add other middleware
-app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -130,7 +126,7 @@ app.delete("/delete-movie/:id",(req: MovieRequest, res: Response)=>{
 
 // movie create multiple files
 
-app.listen(process.env.port || "3000")
-console.log(`App is start on port ${process.env.port}`);
+app.listen(8000)
+console.log(`App is start on port `);
 
 
