@@ -3,7 +3,6 @@ import connectMongo from "./src/mongo";
 connectMongo();
 
 import MovieEx, { IMovie} from "./models/model";
-
 import { Request ,Response} from "express";
 import multer, { Multer } from "multer";
 import fileUpload,{UploadedFile} from "express-fileupload";
@@ -26,6 +25,7 @@ app.use(fileUpload({
 
 
 //add other middleware
+app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
@@ -34,38 +34,38 @@ interface MovieRequest extends Request{
 }
 
 // movie create
-app.post("/movie-create",(req: MovieRequest, res: Response) => {
+app.post("/movie-create",(req: any, res: any) => {
   const payload = req.body;
-  const movie = new MovieEx(payload);
-  movie
-    .save()
+  console.log(payload)
+  res.send()
+//   const movie = new MovieEx(payload);
+//   movie
+//     .save()
 
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-})
+//     .catch((err) => {
+//       res.status(500).send({ message: err.message });
+// })
 });
-app.post('/upload', async(req: MovieRequest, res: Response)=> {
-  console.log(req?.files?.at); // the uploaded file object
-});
 
-app.post("/movies",async(req: MovieRequest, res: Response)=>{
-  const image = req?.files?.image as UploadedFile;
-  const uploadPath = __dirname + "/uploads" + image.name;
 
-  image.mv(uploadPath,(err)=>{
-      if(err) console.log(err);
-  });
+// app.post("/movies",async(req: MovieRequest, res: Response)=>{
+//   const image = req?.files?.image as UploadedFile;
+//   const uploadPath = __dirname + "/uploads" + image.name;
 
-  const data = {
-    ...req.body,
-    image:{
-      url: `http://localhost:${process.env.port}/${image.name}`,
-      size: image.size,
-      name: image.name,
-    },
-  };
-  res.send(data)
-})
+//   image.mv(uploadPath,(err)=>{
+//       if(err) console.log(err);
+//   });
+
+//   const data = {
+//     ...req.body,
+//     image:{
+//       url: `http://localhost:${process.env.port}/${image.name}`,
+//       size: image.size,
+//       name: image.name,
+//     },
+//   };
+//   res.send(data)
+// })
 
 
 // get movie list
