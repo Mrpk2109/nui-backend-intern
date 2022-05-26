@@ -28,10 +28,10 @@ const imageSchema = new Schema<Image>({
 
 const movieSchema = new Schema<MovieDocument>({
     name:{ type: String, required: true},
-    price: String,
+    price: Number,
     details: String,
     image: imageSchema,
 });
 
-const MovieEx = mongoose.model("movie",movieSchema);
+const MovieEx = mongoose.model("test",movieSchema);
 export default MovieEx;

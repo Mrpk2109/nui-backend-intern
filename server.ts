@@ -1,8 +1,7 @@
-
 import connectMongo from "./src/mongo";
 connectMongo();
 
-import MovieEx, { IMovie} from "./models/model";
+import MovieEx, { IMovie } from "./models/model";
 
 import express, {Express, Request ,Response} from "express";
 import fileUpload,{UploadedFile} from "express-fileupload";
@@ -13,55 +12,54 @@ import cors from "cors"
 
 const app:Express = express();
 app.use(cors())
-
-
-// enable files upload
-app.use(fileUpload({
-    createParentPath: true
-}));
-
-
-//add other middleware
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({extended: false}));
+
+
+app.use(express.static("uploads"));
+app.use(fileUpload());
+
+// movie create
+app.post("/movie-create",async(req:any, res:any) => {
+  const payload = req.body;
+  const movie = new MovieEx(payload);
+  // console.log(price);
+  
+  movie
+    .save()
+    .then(res.status(201).end())
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+})
+});
 
 interface MovieRequest extends Request{
   body: IMovie;
 }
 
-// movie create
-app.post("/movie-create",(req: any, res: any) => {
-  const payload = req.body;
-  console.log(payload)
-  res.send()
-//   const movie = new MovieEx(payload);
-//   movie
-//     .save()
+app.post("/movies",async(req: Request, res: Response)=>{
+  const image = req?.files?.image as UploadedFile;
+  
+  const uploadPath = __dirname + "/uploads/" + image.name;
 
-//     .catch((err) => {
-//       res.status(500).send({ message: err.message });
-// })
-});
+  image.mv(uploadPath,(err)=>{
+      if(err) console.log(err);
+  });
+  const data = {
 
-
-// app.post("/movies",async(req: MovieRequest, res: Response)=>{
-//   const image = req?.files?.image as UploadedFile;
-//   const uploadPath = __dirname + "/uploads" + image.name;
-
-//   image.mv(uploadPath,(err)=>{
-//       if(err) console.log(err);
-//   });
-
-//   const data = {
-//     ...req.body,
-//     image:{
-//       url: `http://localhost:${process.env.port}/${image.name}`,
-//       size: image.size,
-//       name: image.name,
-//     },
-//   };
-//   res.send(data)
-// })
+    ...req.body,
+    price : req.body.price / 30,
+    image:{
+      url: `http://localhost:${process.env.port}/${image.name}`,
+      size: image.size,
+      name: image.name,
+    },
+   
+  };
+  const movie = await MovieEx.create(data);
+  res.send(movie);
+  
+})
 
 
 // get movie list
@@ -72,6 +70,8 @@ app.get("/list",async(req: MovieRequest, res: Response)=>{
     res.status(500).send({ message: err.message });
   });
 })
+
+
 // get movie by id
  app.get("/byID/:id",async(req: MovieRequest, res: Response)=>{
   const id = await req.params.id;
@@ -81,6 +81,8 @@ app.get("/list",async(req: MovieRequest, res: Response)=>{
       res.status(500).send({ message: err.message });
     });
 })
+
+
 // update movie
 app.put("/update-movie/:id",(req: MovieRequest, res: Response)=>{
   //const payload = req.params.id;
@@ -102,6 +104,8 @@ app.put("/update-movie/:id",(req: MovieRequest, res: Response)=>{
     })
     });    
 })
+
+
 // delete movie
 app.delete("/delete-movie/:id",(req: MovieRequest, res: Response)=>{
   const id =  req.params.id;
@@ -124,9 +128,5 @@ app.delete("/delete-movie/:id",(req: MovieRequest, res: Response)=>{
     });    
 })
 
-// movie create multiple files
-
-app.listen(8000)
-console.log(`App is start on port `);
-
-
+app.listen(process.env.port || "3000")
+console.log(`App is start on port ${process.env.port}`);
