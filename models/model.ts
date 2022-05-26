@@ -28,7 +28,7 @@ const imageSchema = new Schema<Image>({
 
 const movieSchema = new Schema<MovieDocument>({
     name:{ type: String, required: true},
-    price: Number,
+    price: String,
     details: String,
     image: imageSchema,
 });
