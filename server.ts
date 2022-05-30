@@ -20,7 +20,7 @@ app.use(express.static("uploads"));
 app.use(fileUpload());
 
 // movie create
-app.post("/movie-create",async(req:any, res:any) => {
+app.post("/movie-create",(req:any, res:any) => {
   const payload = req.body;
   const movie = new MovieEx(payload);
   // console.log(price);
@@ -37,7 +37,7 @@ interface MovieRequest extends Request{
   body: IMovie;
 }
 
-app.post("/movies",(req: Request, res: Response)=>{
+app.post("/movies",(req: Request, res: any)=>{
   const image = req?.files?.image as UploadedFile;
   
   const uploadPath = __dirname + "/uploads/" + image.name;
@@ -59,11 +59,11 @@ app.post("/movies",(req: Request, res: Response)=>{
   const movie = MovieEx.create(data);
 
   movie
-  .then(res.status(201).end)
+  .then(res.send(movie))
   .catch((err) => {
     res.status(500).send({ message: err.message });
   })
-  res.send(movie);
+  
   
 })
 
