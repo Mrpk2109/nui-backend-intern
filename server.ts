@@ -37,7 +37,7 @@ interface MovieRequest extends Request{
   body: IMovie;
 }
 
-app.post("/movies",async(req: Request, res: Response)=>{
+app.post("/movies",(req: Request, res: Response)=>{
   const image = req?.files?.image as UploadedFile;
   
   const uploadPath = __dirname + "/uploads/" + image.name;
@@ -48,7 +48,7 @@ app.post("/movies",async(req: Request, res: Response)=>{
   const data = {
 
     ...req.body,
-    price : req.body.price / 30,
+    price : req.body.price / 30 + "Dollars",
     image:{
       url: `http://localhost:${process.env.port}/${image.name}`,
       size: image.size,
@@ -56,14 +56,20 @@ app.post("/movies",async(req: Request, res: Response)=>{
     },
    
   };
-  const movie = await MovieEx.create(data);
+  const movie = MovieEx.create(data);
+
+  movie
+  .then(res.status(201).end)
+  .catch((err) => {
+    res.status(500).send({ message: err.message });
+  })
   res.send(movie);
   
 })
 
 
 // get movie list
-app.get("/list",async(req: MovieRequest, res: Response)=>{
+app.get("/list",(req: MovieRequest, res: Response)=>{
   MovieEx.find()
   .then((movies) => res.json(movies))
   .catch((err) => {
@@ -73,8 +79,8 @@ app.get("/list",async(req: MovieRequest, res: Response)=>{
 
 
 // get movie by id
- app.get("/byID/:id",async(req: MovieRequest, res: Response)=>{
-  const id = await req.params.id;
+ app.get("/byID/:id",(req: MovieRequest, res: Response)=>{
+  const id = req.params.id;
   MovieEx.findById({ _id: id })
     .then((movies) => res.json(movies))
     .catch((err) => {
