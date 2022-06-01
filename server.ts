@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("uploads"));
 app.use(fileUpload());
 
-// movie create
+// movie create /.then
 app.post("/movie-create",(req:any, res:any) => {
   const payload = req.body;
   const movie = new MovieEx(payload);
@@ -32,11 +32,16 @@ app.post("/movie-create",(req:any, res:any) => {
       res.status(500).send({ message: err.message });
 })
 });
-
+//movie create /async await
+// app.post("/movie-create",async(req: Request,res: Response) => {
+//   const payload = req.body;
+//   const movie = await MovieEx.create(payload);
+//   res.send(movie);
+// })
 interface MovieRequest extends Request{
   body: IMovie;
 }
-
+//create picture and data .then
 app.post("/movies",(req: Request, res: any)=>{
   const image = req?.files?.image as UploadedFile;
   
@@ -57,18 +62,37 @@ app.post("/movies",(req: Request, res: any)=>{
    
   };
   const movie = MovieEx.create(data);
-
   movie
   .then(res.send(movie))
   .catch((err) => {
     res.status(500).send({ message: err.message });
   })
-  
-  
 })
 
+// //create picture and data async await
+// app.post("/movies",async(req:Request,res:Response)=>{
+//   const image = req?.files?.image as UploadedFile;
+//   const uploadPath = __dirname + "/uploads/" + image.name;
 
-// get movie list
+//   image.mv(uploadPath,(err)=>{
+//     if(err) console.log(err);
+// });
+// const data = {
+
+//   ...req.body,
+//   price : req.body.price / 30 + "Dollars",
+//   image:{
+//     url: `http://localhost:${process.env.port}/${image.name}`,
+//     size: image.size,
+//     name: image.name,
+//   },
+ 
+// };
+//   const movie = await MovieEx.create(data)
+//   res.send(movie)
+// })
+
+// get movie list .then
 app.get("/list",(req: MovieRequest, res: Response)=>{
   MovieEx.find()
   .then((movies) => res.json(movies))
@@ -76,7 +100,17 @@ app.get("/list",(req: MovieRequest, res: Response)=>{
     res.status(500).send({ message: err.message });
   });
 })
+// // get movie list async await
+// app.get("/list",async (req:MovieRequest,res:Response)=>{
+//   try{
+//     const find = await MovieEx.find()
+//     res.send(find)
+//   }catch(err) {
+//     res.status(500).send({ message: err });
+//   }
 
+  
+// })
 
 // get movie by id
  app.get("/byID/:id",(req: MovieRequest, res: Response)=>{
