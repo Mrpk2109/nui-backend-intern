@@ -33,5 +33,5 @@ const movieSchema = new Schema<MovieDocument>({
     image: imageSchema,
 });
 
-const MovieEx = mongoose.model("test",movieSchema);
+const MovieEx = mongoose.model("test1",movieSchema);
 export default MovieEx;

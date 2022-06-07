@@ -31,6 +31,6 @@
   "scripts": {
     "build": "npx tsc",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/sever.js\"",
-    "start": "ts-node-dev ./server.ts"
+    "start": "ts-node-dev ./index.ts"
   }
 }
