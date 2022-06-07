@@ -19,6 +19,11 @@ app.use(bodyParser.urlencoded({extended: false}));
 app.use(express.static("uploads"));
 app.use(fileUpload());
 
+app.use((req, res, next) => {
+  console.log('Request Type:', req.method)
+  next()
+})
+
 // movie create /.then
 app.post("/movie-create",(req:any, res:any) => {
   const payload = req.body;
@@ -114,6 +119,7 @@ app.get("/list",(req: MovieRequest, res: Response)=>{
 
 // get movie by id
  app.get("/byID/:id",(req: MovieRequest, res: Response)=>{
+  res.send('USER')
   const id = req.params.id;
   MovieEx.findById({ _id: id })
     .then((movies) => res.json(movies))
