@@ -37,7 +37,7 @@ export const getMovie = (req,res)=>{
 export const getPic =  (req: Request, res: any) => {
     const image = req?.files?.image as UploadedFile;
 
-    const uploadPath = __dirname + "/uploads/" + image.name;
+    const uploadPath = "./uploads/" + image.name;
 
     image.mv(uploadPath, (err) => {
         if (err)

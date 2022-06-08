@@ -1,6 +1,5 @@
-export const requestTime = function (req:any, res:any, next:any) {
+export const requestTime = function (req, res, next) {
     req.requestTime = new Date()
-    console.log(req.requestTime);
-    
+    console.log('Request time is : '+req.requestTime);
     next()
   }
