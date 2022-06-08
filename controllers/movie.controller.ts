@@ -1,5 +1,5 @@
 
-import MovieEx,{ IMovie } from "../../models/model";
+import MovieEx,{ IMovie } from "../models/movie.model";
 import express, {Express, Request ,Response} from "express";
 import {UploadedFile} from "express-fileupload";
 
@@ -45,7 +45,7 @@ export const getPic =  (req: Request, res: any) => {
     });
     const data = {
         ...req.body,
-        price: req.body.price / 30 + "Dollars",
+        price: req.body.price / 30 + " Dollars",
         image: {
             url: `http://localhost:${process.env.port}/${image.name}`,
             size: image.size,
