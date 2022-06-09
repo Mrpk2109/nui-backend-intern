@@ -15,7 +15,7 @@ import router from "./routes/movie.route";
 
 //import middleware
 import { requestTime } from "./middlewares/date.middleware";
-import { requestMethod } from "./middlewares/reqmeth.middleware";
+import { requestMethod } from "./middlewares/meth.middleware";
 
 //use express
 const app:Express = express();
