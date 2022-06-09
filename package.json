@@ -32,5 +32,19 @@
     "build": "npx tsc",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/sever.js\"",
     "start": "ts-node-dev ./index.ts"
-  }
+  },
+  "name": "nui-backend-intern",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mrpk2109/nui-backend-intern.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Mrpk2109/nui-backend-intern/issues"
+  },
+  "homepage": "https://github.com/Mrpk2109/nui-backend-intern#readme",
+  "description": ""
 }
