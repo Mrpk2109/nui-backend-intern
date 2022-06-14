@@ -7,6 +7,7 @@
     "express-fileupload": "^1.4.0",
     "formidable": "^2.0.1",
     "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.21",
     "module-data": "^0.0.1",
     "mongo": "^0.1.0",
