@@ -64,7 +64,7 @@ export const updateMovie = (req,res)=>{
     const movie = MovieEx.findByIdAndUpdate(req.params.id, req.body)
     
     .then(data => {
-      console.log('data' + data);
+      console.log(data);
       
       if (!data) {
         res.status(404).send({

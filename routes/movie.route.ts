@@ -8,7 +8,7 @@ router.post("/movie-create",verifyToken,getMovie)
 router.post("/movies",verifyToken,getPic)
 router.get("/list", viewMovie)
 router.get("/byID/:id", findId)
-router.put("/update-movie",verifyToken,updateMovie)
-router.delete("/delete-movie",verifyToken,deleteMovie)
+router.put("/update-movie/:id",verifyToken,updateMovie)
+router.delete("/delete-movie/:id",verifyToken,deleteMovie)
 
 export default router;
