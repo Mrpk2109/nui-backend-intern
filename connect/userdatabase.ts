@@ -1,8 +1,6 @@
-import { error } from "console";
 import mongoose  from "mongoose";
-import { exit } from "process";
 
-const {MONGO_URI } = process.env;
+const { MONGO_URI } = process.env;
 
 exports.connect = () => {
     mongoose

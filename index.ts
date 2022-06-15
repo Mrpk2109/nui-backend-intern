@@ -12,6 +12,7 @@ import cors from "cors"
 
 //import route
 import router from "./routes/movie.route";
+import userRoute from "./routes/user.route";
 
 //import middleware
 import { requestTime } from "./middlewares/date.middleware";
@@ -32,6 +33,7 @@ app.use(requestMethod)
 app.use(requestTime)
 
 //use route
+app.use(userRoute)
 app.use(router)
 
 app.listen(process.env.port || "3000")

@@ -1,14 +1,11 @@
 import express,{Request,Response} from "express";
 import jwt from "jsonwebtoken"
-
+import bcrypt from "bcryptjs"
+import User from "../models/user.model"
 require("dotenv").config();
-require("./config/database").connect();
-
-const bcrypt = require("bcryptjs");
 
 
-//importing user context
-const User = require("./model/user");
+
 
 const app = express();
 
@@ -88,12 +85,16 @@ export const login = async(req:Request, res:Response)=>{
             user.token = token;
 
             //user
-            res.status(200).json(user);
+            return res.status(200).json(user);
         }
-        res.status(400).send("Invalid Credentials");
+        return res.status(400).send("Invalid Credentials");
     }catch (err){
         console.log(err);
     }
+}
+
+export const welcome = (req:Request,res:Response)=>{
+  res.status(200).send("welcome 🙌");
 }
 
 export default exports;

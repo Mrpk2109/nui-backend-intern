@@ -1,6 +1,5 @@
 import mongoose,{ Mongoose } from "mongoose";
 import { Schema, model, Document } from "mongoose";
-import { type } from "os";
 
 interface Image{
     url: string;

@@ -1,5 +1,5 @@
 
-import MovieEx,{ IMovie } from "../models/movie.model";
+import MovieEx from "../models/movie.model";
 import express, {Express, Request ,Response} from "express";
 import {UploadedFile} from "express-fileupload";
 
@@ -22,7 +22,7 @@ export const findId = (req:Request,res:Response)=>{
     });
 }
 
-export const getMovie = (req,res)=>{
+export const getMovie = (req:Request,res:any)=>{
     const payload = req.body;
     const movie = new MovieEx(payload);
     console.log(payload);
@@ -45,7 +45,7 @@ export const getPic =  (req: Request, res: any) => {
     });
     const data = {
         ...req.body,
-        price: req.body.price / 30 + " Dollars",
+        // price: req.body.price / 30 + " Dollars",
         image: {
             url: `http://localhost:${process.env.port}/${image.name}`,
             size: image.size,
@@ -60,16 +60,19 @@ export const getPic =  (req: Request, res: any) => {
         });
 };
 
-export const updateMovie = (req:Request,res:Response)=>{
+export const updateMovie = (req,res)=>{
     const movie = MovieEx.findByIdAndUpdate(req.params.id, req.body)
+    
     .then(data => {
+      console.log('data' + data);
+      
       if (!data) {
         res.status(404).send({
-          message: `Cannot update movie`
+          message: `Cannot update movie eiei`
         });
       } else {
         res.send({
-          message: "Tutorial was update successfully!"
+          message: "Movie was update successfully!"
         });
       }
     })
