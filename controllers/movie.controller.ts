@@ -45,7 +45,7 @@ export const getPic =  (req: Request, res: any) => {
     });
     const data = {
         ...req.body,
-        // price: req.body.price / 30 + " Dollars",
+        price: req.body.price / 30,
         image: {
             url: `http://localhost:${process.env.port}/${image.name}`,
             size: image.size,
@@ -61,14 +61,21 @@ export const getPic =  (req: Request, res: any) => {
 };
 
 export const updateMovie = (req,res)=>{
-    const movie = MovieEx.findByIdAndUpdate(req.params.id, req.body)
-    
+  const image = req?.files?.image as UploadedFile;
+    const data = {
+      ...req.body,
+      price: req.body.price / 30,
+      image: {
+        url: `http://localhost:${process.env.port}/${image.name}`,
+        size: image.size,
+        name: image.name,}
+    }
+    const movie = MovieEx.findByIdAndUpdate(req.params.id,data)
+
     .then(data => {
-      console.log(data);
-      
       if (!data) {
         res.status(404).send({
-          message: `Cannot update movie eiei`
+          message: `Cannot update movie`
         });
       } else {
         res.send({
